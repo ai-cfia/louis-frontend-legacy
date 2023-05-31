@@ -9,6 +9,7 @@ conversational web interface to louis backend
 build
 
 ```
+cd app/frontend
 npm run build
 ```
 
