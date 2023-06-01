@@ -5,5 +5,6 @@
 		"dockerfile": "Dockerfile"
 	},
 	"forwardPorts": [3000],
+	"postCreateCommand": "npm install; cd app/frontend; npm install",
   "remoteUser": "node"
 }
