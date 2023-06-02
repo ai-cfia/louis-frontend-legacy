@@ -1,16 +1,21 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
 
 import github from "../../assets/github.svg";
-import cfia from "../../assets/sigcol_1653520512539_fra.png";
+import cfia from "../../assets/CFIA_Banner.png";
 import styles from "./Layout.module.css";
 
 const Layout = () => {
+
+    function refreshPage(){
+        window.location.reload();
+    }
+
     return (
         <div className={styles.layout}>
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
-                    <Link to="/" className={styles.headerTitleContainer}>
-                        <h3 className={styles.headerTitle}>Louis, l'assistant virtuel de l'ACIA</h3>
+                    <Link to="/" className={styles.headerTitleContainer} onClick={refreshPage}>
+                        <h3 className={styles.headerTitle}>Louis, CFIA's Virtual Assistant</h3>
                     </Link>
                     <nav>
                         <ul className={styles.headerNavList}>
@@ -36,7 +41,9 @@ const Layout = () => {
                             </li>
                         </ul>
                     </nav>
-                    <h4 className={styles.headerRightText}>Louis, CFIA's Virtual Assistant</h4>
+                    <Link to="/" className={styles.headerTitleContainer} onClick={refreshPage}>
+                        <h3 className={styles.headerTitle}>Louis, l'assistant virtuel de l'ACIA</h3>
+                    </Link>
                 </div>
             </header>
 
