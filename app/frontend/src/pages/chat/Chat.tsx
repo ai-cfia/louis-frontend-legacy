@@ -12,6 +12,7 @@ import { UserChatMessage } from "../../components/UserChatMessage";
 import { AnalysisPanel, AnalysisPanelTabs } from "../../components/AnalysisPanel";
 import { SettingsButton } from "../../components/SettingsButton";
 import { ClearChatButton } from "../../components/ClearChatButton";
+import { StaticResponses } from "../../Data/StaticResponses";
 
 const Chat = () => {
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
@@ -21,6 +22,7 @@ const Chat = () => {
     const [useSemanticCaptions, setUseSemanticCaptions] = useState<boolean>(false);
     const [excludeCategory, setExcludeCategory] = useState<string>("");
     const [useSuggestFollowupQuestions, setUseSuggestFollowupQuestions] = useState<boolean>(true);
+    const [generateStaticResponses, setGenerateStaticResponses] = useState<boolean>(false);
 
     const lastQuestionRef = useRef<string>("");
     const chatMessageStreamEnd = useRef<HTMLDivElement | null>(null);
@@ -42,27 +44,35 @@ const Chat = () => {
         setActiveCitation(undefined);
         setActiveAnalysisPanelTab(undefined);
 
-        try {
-            const history: ChatTurn[] = answers.map(a => ({ user: a[0], bot: a[1].answer }));
-            const request: ChatRequest = {
-                history: [...history, { user: question, bot: undefined }],
-                approach: Approaches.ReadRetrieveRead,
-                overrides: {
-                    promptTemplate: promptTemplate.length === 0 ? undefined : promptTemplate,
-                    excludeCategory: excludeCategory.length === 0 ? undefined : excludeCategory,
-                    top: retrieveCount,
-                    semanticRanker: useSemanticRanker,
-                    semanticCaptions: useSemanticCaptions,
-                    suggestFollowupQuestions: useSuggestFollowupQuestions
-                }
-            };
-            const result = await chatApi(request);
-            setAnswers([...answers, [question, result]]);
-        } catch (e) {
-            setError(e);
-        } finally {
+        if(!generateStaticResponses){
+            try {
+                const history: ChatTurn[] = answers.map(a => ({ user: a[0], bot: a[1].answer }));
+                const request: ChatRequest = {
+                    history: [...history, { user: question, bot: undefined }],
+                    approach: Approaches.ReadRetrieveRead,
+                    overrides: {
+                        promptTemplate: promptTemplate.length === 0 ? undefined : promptTemplate,
+                        excludeCategory: excludeCategory.length === 0 ? undefined : excludeCategory,
+                        top: retrieveCount,
+                        semanticRanker: useSemanticRanker,
+                        semanticCaptions: useSemanticCaptions,
+                        suggestFollowupQuestions: useSuggestFollowupQuestions
+                    }
+                };
+                const result = await chatApi(request);
+                setAnswers([...answers, [question, result]]);
+            } catch (e) {
+                setError("Looks like there was an issue loading the answer, please try again!");
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        else{
+            setAnswers([[question, StaticResponses[Math.floor(Math.random() * StaticResponses.length)]]]);
             setIsLoading(false);
         }
+        
     };
 
     const clearChat = () => {
@@ -98,6 +108,11 @@ const Chat = () => {
     const onUseSuggestFollowupQuestionsChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
         setUseSuggestFollowupQuestions(!!checked);
     };
+
+    const onsetGenerateStaticResponsesChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
+        setGenerateStaticResponses(!!checked);
+    };
+    
 
     const onExampleClicked = (example: string) => {
         makeApiRequest(example);
@@ -244,6 +259,12 @@ const Chat = () => {
                         checked={useSuggestFollowupQuestions}
                         label="Suggest follow-up questions"
                         onChange={onUseSuggestFollowupQuestionsChange}
+                    />
+                    <Checkbox
+                        className={styles.chatSettingsSeparator}
+                        checked={generateStaticResponses}
+                        label="Generate Static Responses"
+                        onChange={onsetGenerateStaticResponsesChange}
                     />
                 </Panel>
             </div>
