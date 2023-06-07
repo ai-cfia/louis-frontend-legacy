@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Checkbox, Panel, DefaultButton, TextField, SpinButton } from "@fluentui/react";
-import { SparkleFilled } from "@fluentui/react-icons";
+import { CalendarStarRegular, SparkleFilled } from "@fluentui/react-icons";
 
 import styles from "./Chat.module.css";
 
@@ -12,7 +12,7 @@ import { UserChatMessage } from "../../components/UserChatMessage";
 import { AnalysisPanel, AnalysisPanelTabs } from "../../components/AnalysisPanel";
 import { SettingsButton } from "../../components/SettingsButton";
 import { ClearChatButton } from "../../components/ClearChatButton";
-import { StaticResponses } from "../../Data/StaticResponses";
+import { StaticResponses } from "../../data/StaticResponses";
 
 const Chat = () => {
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
@@ -69,11 +69,33 @@ const Chat = () => {
         }
 
         else{
-            setAnswers([[question, StaticResponses[Math.floor(Math.random() * StaticResponses.length)]]]);
+            
+
+            let result = -1;
+            result = findIndex(StaticResponses, question);
+            
             setIsLoading(false);
+
+            if(result > -1){
+                setAnswers([...answers,[question, StaticResponses[result]]]);
+            }
+
+            else{
+                setAnswers([...answers, [question, StaticResponses[Math.floor(Math.random() * StaticResponses.length)]]]);
+            }
         }
+            
         
     };
+
+    const findIndex = (jsonData : typeof StaticResponses, searchString: string) => {
+        for (let i = 0; i< jsonData.length; i++){
+            if(jsonData[i].question == searchString){
+                return i;
+            }
+        }
+        return -1;
+    }
 
     const clearChat = () => {
         lastQuestionRef.current = "";
