@@ -6,18 +6,27 @@ conversational web interface to louis backend
 
 ## local development
 
-build
+Build:
 
 ```
 cd app/frontend
 npm run build
 ```
 
-serve
+Serve:
 
 ```
 cd to the root directory: 
 
 npm install serve 
 ./node_modules/.bin/serve dist/
+```
+
+Automated Testing:
+
+```
+cd to the app/frontend directory: 
+
+cd app/frontend
+npm test  
 ```
