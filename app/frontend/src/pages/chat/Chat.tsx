@@ -15,7 +15,7 @@ import { ClearChatButton } from "../../components/ClearChatButton";
 import { StaticResponses } from "../../data/StaticResponses";
 
 const Chat = () => {
-    const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
+    //const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
     const [promptTemplate, setPromptTemplate] = useState<string>("");
     const [retrieveCount, setRetrieveCount] = useState<number>(3);
     const [useSemanticRanker, setUseSemanticRanker] = useState<boolean>(true);
@@ -165,7 +165,9 @@ const Chat = () => {
         <div className={styles.container}>
             <div className={styles.commandsContainer}>
                 <ClearChatButton className={styles.commandButton} onClick={clearChat} disabled={!lastQuestionRef.current || isLoading} />
-                <SettingsButton className={styles.commandButton} onClick={() => setIsConfigPanelOpen(!isConfigPanelOpen)} />
+                <div data-testid = "my-component">
+                    {/*<SettingsButton className={styles.commandButton} onClick={() => setIsConfigPanelOpen(!isConfigPanelOpen)} />*/}
+                </div>
             </div>
             <div className={styles.chatRoot}>
                 <div className={styles.chatContainer}>
@@ -235,7 +237,7 @@ const Chat = () => {
                         activeTab={activeAnalysisPanelTab}
                     />
                 )}
-
+                {/*
                 <Panel
                     headerText="Configure answer generation"
                     isOpen={isConfigPanelOpen}
@@ -289,6 +291,7 @@ const Chat = () => {
                         onChange={onsetGenerateStaticResponsesChange}
                     />
                 </Panel>
+                */}
             </div>
         </div>
     );

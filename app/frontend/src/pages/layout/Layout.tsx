@@ -14,9 +14,6 @@ const Layout = () => {
         <div className={styles.layout}>
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
-                    <Link to="/" className={styles.headerTitleContainer} onClick={refreshPage}>
-                        <h3 className={styles.headerTitle}>Louis, CFIA's Virtual Assistant</h3>
-                    </Link>
                     <nav>
                         <ul className={styles.headerNavList}>
                             {/* <li>
@@ -35,15 +32,21 @@ const Layout = () => {
                                         src={cfia}
                                         alt="CFIA logo"
                                         aria-label="Link to CFIA | Lien à l'ACIA"
-                                        className={styles.githubLogo}
-                                    />
+                                        style={{height: 40, marginTop: 10, marginRight: 100}}
+                                        />
                                 </a>
                             </li>
+                            <li>
+                                <Link to="/" className={styles.headerTitleContainer} onClick={refreshPage}>
+                                    <h3 className={styles.headerTitle}>Louis, CFIA's Virtual Assistant</h3>
+                                    <h3 className={styles.headerTitle}>| Louis, l'assistant virtuel de l'ACIA</h3>
+                                </Link>
+                            </li>
+                            <li className={styles.headerRightText}>Alpha Version</li>
+
                         </ul>
                     </nav>
-                    <Link to="/" className={styles.headerTitleContainer} onClick={refreshPage}>
-                        <h3 className={styles.headerTitle}>Louis, l'assistant virtuel de l'ACIA</h3>
-                    </Link>
+
                 </div>
             </header>
 

@@ -20,9 +20,9 @@
 .headerTitleContainer {
     display: flex;
     align-items: center;
-    margin-right: 40px;
     color: #f2f2f2;
     text-decoration: none;
+    margin-left: 20px;
 }
 
 .headerLogo {
@@ -60,7 +60,7 @@
 }
 
 .headerNavLeftMargin {
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .headerRightText {
@@ -73,6 +73,13 @@
     font-weight: 600;
 }
 
-.githubLogo {
-    height: 50px;
+.headerRightText{
+    font-weight: bold;
+    position: absolute;
+    right: 12px;
+    color:rgb(255, 0, 0);
+    align-content: center;
+    border: 2px solid red;
+    padding: 5px;
+    border-radius: 5px;
 }
