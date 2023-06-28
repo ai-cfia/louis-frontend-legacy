@@ -22,7 +22,7 @@ const Chat = () => {
     const [useSemanticCaptions, setUseSemanticCaptions] = useState<boolean>(false);
     const [excludeCategory, setExcludeCategory] = useState<string>("");
     const [useSuggestFollowupQuestions, setUseSuggestFollowupQuestions] = useState<boolean>(true);
-    const [generateStaticResponses, setGenerateStaticResponses] = useState<boolean>(false);
+    const [generateStaticResponses, setGenerateStaticResponses] = useState<boolean>(true);
 
     const lastQuestionRef = useRef<string>("");
     const chatMessageStreamEnd = useRef<HTMLDivElement | null>(null);
