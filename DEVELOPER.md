@@ -1,6 +1,7 @@
-#Chat.tsx
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chat.tsx
 
-##Making an API request:
+Making an API request:
 
 1. makeApiRequest:
 
@@ -57,7 +58,7 @@
        - data_points: An array of strings representing relevant data points associated with the answer.
        - error: An optional string indicating any error that occurred during the API response.
 
-##JSON response for chat answer:
+JSON response for chat answer:
 
 1. answers and setAnswers:
 
@@ -67,8 +68,7 @@
        - Each chat message is displayed with the user's question (answer[0]) and the corresponding response (answer[1]).
        - Overall, the answers state and setAnswers function are used to maintain and update the chat history as the user interacts with the chat component.
 
-
-##The Return Statement:
+The Return Statement:
 
 1. Content Display:
 
@@ -82,3 +82,5 @@
        - Loading messages are shown when the chat is in the loading state.
        - Error messages are displayed when there is an error loading the answer.
        - The chat interface includes a reference (chatMessageStreamEnd) for scrolling to the end of the chat messages.
+   
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
