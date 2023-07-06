@@ -86,8 +86,8 @@ The Return Statement:
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Git Branches
 
-Creating new branches:
+1. Creating new branches:
 
-       - When creating new branches on git, prefix it with issue number as:
-			issueXXX-short-descriptive-text (all lowercase).
+       - When creating new branches on git, prefix it with issue number as: issueXXX-short-descriptive-text (all lowercase).
+   
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
