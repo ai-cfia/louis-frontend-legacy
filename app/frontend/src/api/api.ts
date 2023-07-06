@@ -1,7 +1,9 @@
 import { AskRequest, AskResponse, ChatRequest } from "./models";
 
 export async function askApi(options: AskRequest): Promise<AskResponse> {
-    const response = await fetch("/ask", {
+    const apiUrl = process.env.REACT_APP_API_URL as string;
+
+    const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -31,7 +33,10 @@ export async function askApi(options: AskRequest): Promise<AskResponse> {
 }
 
 export async function chatApi(options: ChatRequest): Promise<AskResponse> {
-    const response = await fetch("/chat", {
+    
+    const apiUrl = process.env.REACT_APP_API_URL as string;
+
+    const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
