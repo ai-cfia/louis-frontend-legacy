@@ -5,7 +5,6 @@ COPY ./app ./app
 COPY package.json .
 COPY package-lock.json .
 RUN cd app/frontend && npm install --include=dev
-RUN echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}"
 RUN cd app/frontend && REACT_APP_API_URL=$REACT_APP_BACKEND_URL npm run build
 RUN cd app/frontend && CI=1 npm run test
 
