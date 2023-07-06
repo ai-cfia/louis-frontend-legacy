@@ -84,3 +84,10 @@ The Return Statement:
        - The chat interface includes a reference (chatMessageStreamEnd) for scrolling to the end of the chat messages.
    
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Git Branches
+
+Creating new branches:
+
+       - When creating new branches on git, prefix it with issue number as:
+			issueXXX-short-descriptive-text (all lowercase).
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
