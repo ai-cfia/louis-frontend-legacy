@@ -43,6 +43,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   deploy:
+    if: github.ref == 'main'
     needs: build 
     runs-on: ubuntu-latest
     environment: experimental
