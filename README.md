@@ -12,9 +12,10 @@ conversational web interface to louis backend
 
 ### Configuration
 
-1. In the root of the project directory, create a file named `.env`.
-2. Open the `.env` file in a text editor.
-3. Assign the `REACT_APP_BACKEND_URL` variable to the endpoint URL of your backend server.
+1. cd to the frontend directory `cd app/fronend`.
+2. In the frontend project directory, create a file named `.env`.
+3. Open the `.env` file in a text editor.
+4. Assign the `REACT_APP_BACKEND_URL` variable to the endpoint URL of your backend server.
 
    For example: `REACT_APP_BACKEND_URL=Endpoint_url_goes_here`
    
