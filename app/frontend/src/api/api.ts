@@ -1,9 +1,10 @@
 import { AskRequest, AskResponse, ChatRequest } from "./models";
 
 export async function askApi(options: AskRequest): Promise<AskResponse> {
-    const apiUrl = process.env.REACT_APP_API_URL as string;
-
-    const response = await fetch(apiUrl, {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL as string;
+    console.log("API: " + apiUrl);
+    
+    const response = await fetch(apiUrl + "/chat", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -34,9 +35,10 @@ export async function askApi(options: AskRequest): Promise<AskResponse> {
 
 export async function chatApi(options: ChatRequest): Promise<AskResponse> {
     
-    const apiUrl = process.env.REACT_APP_API_URL as string;
+    const url = process.env.REACT_APP_BACKEND_URL ?? ''; // Provide a default value if undefined
+    console.log("API IS: " + url);
 
-    const response = await fetch(apiUrl, {
+    const response = await fetch(url + "/chat", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
