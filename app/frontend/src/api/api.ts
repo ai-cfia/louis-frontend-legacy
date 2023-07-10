@@ -4,7 +4,7 @@ export async function askApi(options: AskRequest): Promise<AskResponse> {
     const apiUrl = process.env.REACT_APP_BACKEND_URL as string;
     //console.log("API: " + apiUrl);
     
-    const response = await fetch(apiUrl + "/chat", {
+    const response = await fetch(apiUrl + "/ask", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
