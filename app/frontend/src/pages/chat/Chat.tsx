@@ -36,6 +36,8 @@ const Chat = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<number>(0);
     const [answers, setAnswers] = useState<[user: string, response: AskResponse][]>([]);
 
+    const [isBackendUrlMissing, setIsBackendUrlMissing] = useState(false); // State to track if the backend URL is missing
+
     const makeApiRequest = async (question: string) => {
         lastQuestionRef.current = question;
 
@@ -105,7 +107,15 @@ const Chat = () => {
         setAnswers([]);
     };
 
-    useEffect(() => chatMessageStreamEnd.current?.scrollIntoView({ behavior: "smooth" }), [isLoading]);
+    useEffect(() => {
+        // Scroll the chatMessageStreamEnd element into view
+        chatMessageStreamEnd.current?.scrollIntoView({ behavior: "smooth" });
+      
+        // Check if the backend URL is missing or empty
+        if (!process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL === "") {
+          setIsBackendUrlMissing(true);
+        }
+      }, [isLoading]);
 
     const onPromptTemplateChange = (_ev?: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
         setPromptTemplate(newValue || "");
@@ -163,6 +173,11 @@ const Chat = () => {
 
     return (
         <div className={styles.container}>
+            {isBackendUrlMissing && (
+                <div className={styles.warning}>
+                    Warning: The backend URL is missing or empty. Please check your environment configuration.
+                </div>
+            )}
             <div className={styles.commandsContainer}>
                 <ClearChatButton className={styles.commandButton} onClick={clearChat} disabled={!lastQuestionRef.current || isLoading} />
                 <div data-testid = "my-component">
