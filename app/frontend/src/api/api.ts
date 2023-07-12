@@ -35,7 +35,7 @@ export async function askApi(options: AskRequest): Promise<AskResponse> {
 
 export async function chatApi(options: ChatRequest): Promise<AskResponse> {
     
-    const url = process.env.REACT_APP_BACKEND_URL; // Provide a default value if undefined
+    const url = process.env.REACT_APP_BACKEND_URL;
     //console.log("API IS: " + url);
 
     const response = await fetch(url + "/chat", {
@@ -70,4 +70,31 @@ export async function chatApi(options: ChatRequest): Promise<AskResponse> {
 
 export function getCitationFilePath(citation: string): string {
     return `/content/${citation}`;
+}
+
+export async function PingBackend(){
+
+    const url = process.env.REACT_APP_BACKEND_URL;
+
+    try{
+        
+        const response = await fetch(url + "/search", {
+            method: "POST",
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                query: ""
+            }),
+        });
+
+        if(response.ok) {
+            console.log("Active Server Connection");
+        } else {
+            throw new Error("Request failed");
+        }
+        
+    } catch(error) {
+        console.error("Error: ", error);
+    }
 }

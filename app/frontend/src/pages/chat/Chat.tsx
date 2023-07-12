@@ -4,7 +4,7 @@ import { CalendarStarRegular, SparkleFilled } from "@fluentui/react-icons";
 
 import styles from "./Chat.module.css";
 
-import { chatApi, Approaches, AskResponse, ChatRequest, ChatTurn } from "../../api";
+import { chatApi, Approaches, AskResponse, ChatRequest, ChatTurn, PingBackend } from "../../api";
 import { Answer, AnswerError, AnswerLoading } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ExampleList } from "../../components/Example";
@@ -36,7 +36,8 @@ const Chat = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<number>(0);
     const [answers, setAnswers] = useState<[user: string, response: AskResponse][]>([]);
 
-    const [isBackendUrlMissing, setIsBackendUrlMissing] = useState(false); // State to track if the backend URL is missing
+    const [alertMessage, setAlertMessage] = useState(""); // State variable for the alert message
+    const [isError, setIsError] = useState(false); // State to track if the backend URL is missing
 
     const makeApiRequest = async (question: string) => {
         lastQuestionRef.current = question;
@@ -110,11 +111,19 @@ const Chat = () => {
     useEffect(() => {
         // Scroll the chatMessageStreamEnd element into view
         chatMessageStreamEnd.current?.scrollIntoView({ behavior: "smooth" });
-      
+
         // Check if the backend URL is missing or empty
-        if (!process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL === "") {
-          setIsBackendUrlMissing(true);
+        if(!process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL === "") {
+            setIsError(true);
+            setAlertMessage("Warning: Backend URL is not set, frontend is misconfigured.")
+        } else {
+            PingBackend().catch((error) => {
+                console.error("Error: ", error);
+                setIsError(true);
+                setAlertMessage("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed."); // Set the alert message on error
+            });
         }
+
       }, [isLoading]);
 
     const onPromptTemplateChange = (_ev?: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
@@ -173,7 +182,7 @@ const Chat = () => {
 
     return (
         <div className={styles.container}>
-            {isBackendUrlMissing && (
+            {isError && (
                 <div className={styles.warning}>
                     Warning: The backend URL is missing or empty. Please check your environment configuration.
                 </div>
