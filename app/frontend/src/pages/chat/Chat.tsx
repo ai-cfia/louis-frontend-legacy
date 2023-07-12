@@ -184,7 +184,7 @@ const Chat = () => {
         <div className={styles.container}>
             {isError && (
                 <div className={styles.warning}>
-                    Warning: The backend URL is missing or empty. Please check your environment configuration.
+                    {alertMessage}
                 </div>
             )}
             <div className={styles.commandsContainer}>
