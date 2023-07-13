@@ -72,13 +72,14 @@ export function getCitationFilePath(citation: string): string {
     return `/content/${citation}`;
 }
 
-export async function PingBackend(){
+export function GetEndpoint(path: string){
+    return process.env.REACT_APP_BACKEND_URL + path;
+};
 
-    const url = process.env.REACT_APP_BACKEND_URL;
+export async function PingBackend(getEndpoint: (path: string) => string) {
 
-    try{
-        
-        const response = await fetch(url + "/search", {
+    try {
+        const response = await fetch(getEndpoint("/search"), {
             method: "POST",
             headers: {
                 'Content-Type':'application/json'
@@ -88,13 +89,16 @@ export async function PingBackend(){
             }),
         });
 
-        if(response.ok) {
+        if (response.ok) {
             console.log("Active Server Connection");
+            const data = await response.json(); // Parse the response body
+            return data; // Return the response data
         } else {
-            throw new Error("Request failed");
+            throw new Error("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed.");
         }
         
     } catch(error) {
         console.error("Error: ", error);
+        throw error; // Re-throw the error
     }
 }

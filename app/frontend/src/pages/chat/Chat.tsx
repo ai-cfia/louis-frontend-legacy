@@ -1,28 +1,24 @@
 import { useRef, useState, useEffect } from "react";
-import { Checkbox, Panel, DefaultButton, TextField, SpinButton } from "@fluentui/react";
-import { CalendarStarRegular, SparkleFilled } from "@fluentui/react-icons";
-
+import { SparkleFilled } from "@fluentui/react-icons";
 import styles from "./Chat.module.css";
-
-import { chatApi, Approaches, AskResponse, ChatRequest, ChatTurn, PingBackend } from "../../api";
+import { chatApi, Approaches, AskResponse, ChatRequest, ChatTurn, PingBackend, GetEndpoint } from "../../api";
 import { Answer, AnswerError, AnswerLoading } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ExampleList } from "../../components/Example";
 import { UserChatMessage } from "../../components/UserChatMessage";
 import { AnalysisPanel, AnalysisPanelTabs } from "../../components/AnalysisPanel";
-import { SettingsButton } from "../../components/SettingsButton";
 import { ClearChatButton } from "../../components/ClearChatButton";
 import { StaticResponses } from "../../data/StaticResponses";
 
 const Chat = () => {
     //const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
-    const [promptTemplate, setPromptTemplate] = useState<string>("");
-    const [retrieveCount, setRetrieveCount] = useState<number>(3);
-    const [useSemanticRanker, setUseSemanticRanker] = useState<boolean>(true);
-    const [useSemanticCaptions, setUseSemanticCaptions] = useState<boolean>(false);
-    const [excludeCategory, setExcludeCategory] = useState<string>("");
-    const [useSuggestFollowupQuestions, setUseSuggestFollowupQuestions] = useState<boolean>(true);
-    const [generateStaticResponses, setGenerateStaticResponses] = useState<boolean>(false);
+    const [promptTemplate] = useState<string>("");
+    const [retrieveCount] = useState<number>(3);
+    const [useSemanticRanker] = useState<boolean>(true);
+    const [useSemanticCaptions] = useState<boolean>(false);
+    const [excludeCategory] = useState<string>("");
+    const [useSuggestFollowupQuestions] = useState<boolean>(true);
+    const [generateStaticResponses] = useState<boolean>(false);
 
     const lastQuestionRef = useRef<string>("");
     const chatMessageStreamEnd = useRef<HTMLDivElement | null>(null);
@@ -117,7 +113,7 @@ const Chat = () => {
             setIsError(true);
             setAlertMessage("Warning: Backend URL is not set, frontend is misconfigured.")
         } else {
-            PingBackend().catch((error) => {
+            PingBackend(GetEndpoint).catch((error) => {
                 console.error("Error: ", error);
                 setIsError(true);
                 setAlertMessage("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed."); // Set the alert message on error
@@ -125,34 +121,6 @@ const Chat = () => {
         }
 
       }, [isLoading]);
-
-    const onPromptTemplateChange = (_ev?: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-        setPromptTemplate(newValue || "");
-    };
-
-    const onRetrieveCountChange = (_ev?: React.SyntheticEvent<HTMLElement, Event>, newValue?: string) => {
-        setRetrieveCount(parseInt(newValue || "3"));
-    };
-
-    const onUseSemanticRankerChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
-        setUseSemanticRanker(!!checked);
-    };
-
-    const onUseSemanticCaptionsChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
-        setUseSemanticCaptions(!!checked);
-    };
-
-    const onExcludeCategoryChanged = (_ev?: React.FormEvent, newValue?: string) => {
-        setExcludeCategory(newValue || "");
-    };
-
-    const onUseSuggestFollowupQuestionsChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
-        setUseSuggestFollowupQuestions(!!checked);
-    };
-
-    const onsetGenerateStaticResponsesChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
-        setGenerateStaticResponses(!!checked);
-    };
     
 
     const onExampleClicked = (example: string) => {
@@ -261,61 +229,6 @@ const Chat = () => {
                         activeTab={activeAnalysisPanelTab}
                     />
                 )}
-                {/*
-                <Panel
-                    headerText="Configure answer generation"
-                    isOpen={isConfigPanelOpen}
-                    isBlocking={false}
-                    onDismiss={() => setIsConfigPanelOpen(false)}
-                    closeButtonAriaLabel="Close"
-                    onRenderFooterContent={() => <DefaultButton onClick={() => setIsConfigPanelOpen(false)}>Close</DefaultButton>}
-                    isFooterAtBottom={true}
-                >
-                    <TextField
-                        className={styles.chatSettingsSeparator}
-                        defaultValue={promptTemplate}
-                        label="Override prompt template"
-                        multiline
-                        autoAdjustHeight
-                        onChange={onPromptTemplateChange}
-                    />
-
-                    <SpinButton
-                        className={styles.chatSettingsSeparator}
-                        label="Retrieve this many documents from search:"
-                        min={1}
-                        max={50}
-                        defaultValue={retrieveCount.toString()}
-                        onChange={onRetrieveCountChange}
-                    />
-                    <TextField className={styles.chatSettingsSeparator} label="Exclude category" onChange={onExcludeCategoryChanged} />
-                    <Checkbox
-                        className={styles.chatSettingsSeparator}
-                        checked={useSemanticRanker}
-                        label="Use semantic ranker for retrieval"
-                        onChange={onUseSemanticRankerChange}
-                    />
-                    <Checkbox
-                        className={styles.chatSettingsSeparator}
-                        checked={useSemanticCaptions}
-                        label="Use query-contextual summaries instead of whole documents"
-                        onChange={onUseSemanticCaptionsChange}
-                        disabled={!useSemanticRanker}
-                    />
-                    <Checkbox
-                        className={styles.chatSettingsSeparator}
-                        checked={useSuggestFollowupQuestions}
-                        label="Suggest follow-up questions"
-                        onChange={onUseSuggestFollowupQuestionsChange}
-                    />
-                    <Checkbox
-                        className={styles.chatSettingsSeparator}
-                        checked={generateStaticResponses}
-                        label="Generate Static Responses"
-                        onChange={onsetGenerateStaticResponsesChange}
-                    />
-                </Panel>
-                */}
             </div>
         </div>
     );
