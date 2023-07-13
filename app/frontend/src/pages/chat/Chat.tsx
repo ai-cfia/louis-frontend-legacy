@@ -113,14 +113,24 @@ const Chat = () => {
             setIsError(true);
             setAlertMessage("Warning: Backend URL is not set, frontend is misconfigured.")
         } else {
-            PingBackend(GetEndpoint).catch((error) => {
-                console.error("Error: ", error);
+            // Check if response is ok
+            PingBackend(GetEndpoint)
+              .then(responseData => {
+                if(Array.isArray(responseData) && responseData.length === 0) {
+                  // Response data is an empty array
+                  console.log("Empty array response");
+                } else {
+                      // Response data is not an empty array
+                      setIsError(true);
+                      setAlertMessage("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed."); // Set the alert message on error
+                  }
+              })
+              .catch((error) => {
                 setIsError(true);
                 setAlertMessage("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed."); // Set the alert message on error
-            });
-        }
-
-      }, [isLoading]);
+              });
+          }
+        }, [isLoading]);
     
 
     const onExampleClicked = (example: string) => {
