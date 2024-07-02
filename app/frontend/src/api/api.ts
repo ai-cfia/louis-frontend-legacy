@@ -35,7 +35,7 @@ export async function askApi(options: AskRequest): Promise<AskResponse> {
 
 export async function chatApi(options: ChatRequest): Promise<AskResponse> {
     
-    const url = process.env.REACT_APP_BACKEND_URL; // Provide a default value if undefined
+    const url = process.env.REACT_APP_BACKEND_URL;
     //console.log("API IS: " + url);
 
     const response = await fetch(url + "/chat", {
@@ -70,4 +70,35 @@ export async function chatApi(options: ChatRequest): Promise<AskResponse> {
 
 export function getCitationFilePath(citation: string): string {
     return `/content/${citation}`;
+}
+
+export function GetEndpoint(path: string){
+    return process.env.REACT_APP_BACKEND_URL + path;
+};
+
+export async function PingBackend(getEndpoint: (path: string) => string) {
+
+    try {
+        const response = await fetch(getEndpoint("/search"), {
+            method: "POST",
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                query: ""
+            }),
+        });
+
+        if (response.ok) {
+            console.log("Active Server Connection");
+            const data = await response.json(); // Parse the response body
+            return data; // Return the response data
+        } else {
+            throw new Error("Warning: Initializing ping request to backend $REACT_APP_BACKEND_URL failed.");
+        }
+        
+    } catch(error) {
+        console.error("Error: ", error);
+        throw error; // Re-throw the error
+    }
 }
